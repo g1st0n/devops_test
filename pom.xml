@@ -90,6 +90,7 @@
                 </configuration>
             </plugin>
         </plugins>
+        <finalName>devops_prjt</finalName>
     </build>
 
 </project>
