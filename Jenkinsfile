@@ -1,17 +1,21 @@
 pipeline{
-agent any
+agent none
 environment {
 DOCKERHUB_CREDENTIALS = credentials ('docker_id')
 }
 stages {
+stage ('checkout'){
+steps{
+checkout scm
+}
+}
 
 stage ('init'){
 agent any
 steps {
 bat 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-  }
 }
-
+}
 stage('build backend'){
 agent any
 when{
@@ -27,22 +31,6 @@ bat 'docker push $DOCKERHUB_CREDENTIALS_USR/devops_prjt:$BUILD_ID .'
 
 }
 }
-stage('Testing') {
-            steps {
-                script {
-                    // Run tests (unit or integration)
-                    // Add your testing commands here
-                }
-            }
-        }
-stage('Cleanup') {
-            steps {
-                script {
-
-                   bat' echo Cleanup complete'
-                }
-            }
-        }
 stage('logout'){
 steps{
 bat 'docker logout'
@@ -50,4 +38,3 @@ bat 'docker logout'
 }
 }
 }
-
