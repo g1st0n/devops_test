@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  backend:
+    image: g1st0n/devops_prjt:${BUILD_ID}
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3307/catalogue5DNI2
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD:
+      SPRING_PROFILES_ACTIVE: production
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: catalogue5DNI2
+      MYSQL_USER:
+      MYSQL_PASSWORD:
+    ports:
+      - "3307:3307"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:
